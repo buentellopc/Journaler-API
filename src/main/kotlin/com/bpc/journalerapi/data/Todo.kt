@@ -1,4 +1,4 @@
-package com.jouernaler.journalerapi.data
+package com.bpc.journalerapi.data
 
 
 data class Todo (

@@ -1,4 +1,4 @@
-package com.jouernaler.journalerapi
+package com.bpc.journalerapi
 
 import org.springframework.boot.autoconfigure.SpringBootApplication
 import org.springframework.boot.runApplication
