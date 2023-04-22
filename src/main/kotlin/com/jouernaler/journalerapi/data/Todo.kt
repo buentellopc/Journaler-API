@@ -1,10 +1,9 @@
 package com.jouernaler.journalerapi.data
 
-import java.rmi.registry.LocateRegistry
 
-data class Note (
+data class Todo (
     var id: String = "",
     var title: String,
     var message: String,
-    var location: String? = ""
+    var schedule: Long
 )
