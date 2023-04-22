@@ -1,6 +1,9 @@
 package com.bpc.journalerapi.controller
 
 import com.bpc.journalerapi.data.Todo
+import com.bpc.journalerapi.service.NoteService
+import com.bpc.journalerapi.service.TodoService
+import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
 import org.springframework.web.bind.annotation.*
 import java.util.UUID
@@ -9,28 +12,17 @@ import java.util.UUID
 @RestController
 @RequestMapping("/todos")
 class TodoController {
+
+    @Autowired
+    private lateinit var service: TodoService
     /**
      * Get todos.
      * Test with: curl -X GET http://localhost:9000/todos/obtain
      */
     @GetMapping(produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun getTodos(): List<Todo> {
-        return listOf(
-                Todo(
-                        UUID.randomUUID().toString(),
-                        "My first todo",
-                        "This is a message for the 1st todo.",
-                        System.currentTimeMillis()
-                ),
-                Todo(
-                        UUID.randomUUID().toString(),
-                        "My second todo",
-                        "This is a message for the 2nd todo.",
-                        System.currentTimeMillis()
-                )
-        )
+    fun getTodos(): List<Todo> = service.getTodos();
 
-    }
+
 
     /**
      * Insert todo.
@@ -38,8 +30,7 @@ class TodoController {
      */
     @PostMapping(produces = [MediaType.APPLICATION_JSON_VALUE], consumes = [MediaType.APPLICATION_JSON_VALUE])
     fun insertTodo(@RequestBody todo: Todo): Todo {
-        todo.id = UUID.randomUUID().toString()
-        return todo
+        return service.insertTodo(todo)
     }
 
     /**
@@ -50,11 +41,7 @@ class TodoController {
     @PutMapping(consumes = [MediaType.APPLICATION_JSON_VALUE], produces = [MediaType.APPLICATION_JSON_VALUE])
     fun updateTodo(
             @RequestBody todo: Todo
-    ): Todo {
-        todo.message += " Updated"
-        todo.schedule = System.currentTimeMillis()
-        return todo
-    }
+    ): Boolean = service.updateTodo(todo)
 
     /**
      * Delete todo by Id.
@@ -62,13 +49,13 @@ class TodoController {
      * As a result it returns true or false.
      */
     @DeleteMapping("/{id}", produces = [MediaType.APPLICATION_JSON_VALUE])
-    fun deleteTodo(@PathVariable(name = "id") id: String): Boolean {
-        println("Removing: $id")
-        return true
-    }
-
-
+    fun deleteTodo(@PathVariable(name = "id") id: String): Boolean = service.deleteTodo(id)
 
 
 }
+
+
+
+
+
 
