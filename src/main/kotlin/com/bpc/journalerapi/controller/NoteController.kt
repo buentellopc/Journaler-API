@@ -24,7 +24,7 @@ class NoteController {
     @GetMapping(
             produces = arrayOf(MediaType.APPLICATION_JSON_VALUE)
     )
-    fun getNotes(): List<Note> {
+    fun getNotes(): Iterable<Note> {
         return service.getNotes()
     }
 
@@ -46,7 +46,7 @@ class NoteController {
      * It consumes JSON, that is: request body Note.
      */
     @PutMapping(produces = [MediaType.APPLICATION_JSON_VALUE], consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    fun updateNote(@RequestBody note: Note): Boolean = service.updateNote(note)
+    fun updateNote(@RequestBody note: Note): Note = service.updateNote(note)
 
     /**
      * Delete note.
@@ -54,7 +54,7 @@ class NoteController {
      * Test with curl -X DELETE http://localhost:8080/notes/delete/123
      */
     @DeleteMapping("/{id}", produces = arrayOf(MediaType.APPLICATION_JSON_VALUE))
-    fun deleteNote(@PathVariable(name = "id") id: String): Boolean = service.deleteNote(id)
+    fun deleteNote(@PathVariable(name = "id") id: String) = service.deleteNote(id)
 
 
 }
