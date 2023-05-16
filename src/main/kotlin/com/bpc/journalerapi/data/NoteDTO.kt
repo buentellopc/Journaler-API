@@ -5,7 +5,7 @@ import java.util.*
 data class NoteDTO(
     var title: String,
     var message: String,
-    var location: String = ""
+    var location: String = "this is the default"
 ) {
 
     var id: String = ""
@@ -20,5 +20,9 @@ data class NoteDTO(
         id = note.id
         created = note.created
         modified = note.modified
+    }
+
+    override fun toString(): String {
+        return this.title + this.message + this.location
     }
 }
