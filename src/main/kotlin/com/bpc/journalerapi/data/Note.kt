@@ -11,7 +11,8 @@ import javax.persistence.*
 @Entity
 @Table(name = "note")
 @JsonInclude(JsonInclude.Include.NON_NULL)
-data class Note (
+@NamedQuery(name = "Note.findByTitle", query = "SELECT n FROM Note n WHERE n.title LIKE ?1")
+data class Note(
     @Id
     @GeneratedValue(generator = "uuid2")
     @GenericGenerator(name = "uuid2", strategy = "uuid2")

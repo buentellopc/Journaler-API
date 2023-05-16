@@ -2,6 +2,7 @@ package com.bpc.journalerapi.service
 
 import com.bpc.journalerapi.data.Note
 import com.bpc.journalerapi.data.NoteDTO
+import com.bpc.journalerapi.data.TodoDTO
 import com.bpc.journalerapi.repository.NoteRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -20,6 +21,8 @@ class NoteService {
      * @return all entities
      */
     fun getNotes(): Iterable<NoteDTO> = repository.findAll().map { note -> NoteDTO(note) }
+
+    fun findByTitle(title: String): Iterable<NoteDTO> = repository.findByTitle(title).map { note -> NoteDTO(note) }
 
     /**
      * Saves a given entity. Use the returned instance for further operations as

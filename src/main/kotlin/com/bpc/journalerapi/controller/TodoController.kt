@@ -2,6 +2,7 @@ package com.bpc.journalerapi.controller
 
 import com.bpc.journalerapi.data.Todo
 import com.bpc.journalerapi.data.TodoDTO
+import com.bpc.journalerapi.data.TodoLaterThanRequest
 import com.bpc.journalerapi.service.TodoService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.http.MediaType
@@ -23,6 +24,13 @@ class TodoController {
     fun getTodos(): Iterable<TodoDTO> {
         return service.getTodos()
     }
+
+
+    @GetMapping("/later_than")
+    fun getTodosLaterThan(
+        @RequestBody payload: TodoLaterThanRequest
+    ): Iterable<TodoDTO> = service.getScheduledLaterThan(payload.date)
+
 
     /**
      * Insert Todo.

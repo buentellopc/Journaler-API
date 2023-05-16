@@ -2,6 +2,7 @@ package com.bpc.journalerapi.controller
 
 import com.bpc.journalerapi.data.Note
 import com.bpc.journalerapi.data.NoteDTO
+import com.bpc.journalerapi.data.NoteFindByTitleRequest
 import com.bpc.journalerapi.service.NoteService
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration
@@ -27,6 +28,17 @@ class NoteController {
     fun getNotes(): Iterable<NoteDTO> {
         return service.getNotes()
     }
+
+    @GetMapping(
+         "/by_title",
+        produces = arrayOf(MediaType.APPLICATION_JSON_VALUE),
+        consumes = arrayOf(MediaType.APPLICATION_JSON_VALUE)
+    )
+    fun getNoteByTitle(
+        @RequestBody payload: NoteFindByTitleRequest
+    ): Iterable<NoteDTO> = service.findByTitle(payload.title)
+
+
 
     /**
      * Insert note.
