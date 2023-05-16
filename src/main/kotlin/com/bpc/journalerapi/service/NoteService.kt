@@ -1,6 +1,7 @@
 package com.bpc.journalerapi.service
 
 import com.bpc.journalerapi.data.Note
+import com.bpc.journalerapi.data.NoteDTO
 import com.bpc.journalerapi.repository.NoteRepository
 import org.springframework.beans.factory.annotation.Autowired
 import org.springframework.stereotype.Service
@@ -18,7 +19,7 @@ class NoteService {
      *
      * @return all entities
      */
-    fun getNotes(): Iterable<Note> = repository.findAll()
+    fun getNotes(): Iterable<NoteDTO> = repository.findAll().map { note -> NoteDTO(note) }
 
     /**
      * Saves a given entity. Use the returned instance for further operations as
@@ -27,8 +28,15 @@ class NoteService {
      * @param entity must not be {@literal null}.
      * @return the saved entity will never be {@literal null}.
      */
-    fun insertNote(note: Note): Note = repository.save(note)
-
+    fun insertNote(note: NoteDTO) = NoteDTO(
+        repository.save(
+            Note(
+                title = note.title,
+                message = note.message,
+                location = note.location
+            )
+        )
+    )
     /**
      * Deletes the entity with the given id.
      *
@@ -44,6 +52,14 @@ class NoteService {
      * @param entity must not be {@literal null}.
      * @return the saved entity will never be {@literal null}.
      */
-    fun updateNote(note: Note): Note = repository.save(note)
+    fun updateNote(noteDto: NoteDTO): NoteDTO {
+        var note = repository.findById(noteDto.id).get()
+        note.title = noteDto.title
+        note.message = noteDto.message
+        note.location = noteDto.location
+        note.modified = Date()
+        note = repository.save(note)
+        return NoteDTO(note)
+    }
 
 }

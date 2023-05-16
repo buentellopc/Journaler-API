@@ -1,11 +1,16 @@
 package com.bpc.journalerapi.data
 
+import com.fasterxml.jackson.annotation.JsonInclude
+import org.hibernate.annotations.CreationTimestamp
 import org.hibernate.annotations.GenericGenerator
+import org.hibernate.annotations.UpdateTimestamp
 import java.rmi.registry.LocateRegistry
+import java.util.*
 import javax.persistence.*
 
 @Entity
 @Table(name = "note")
+@JsonInclude(JsonInclude.Include.NON_NULL)
 data class Note (
     @Id
     @GeneratedValue(generator = "uuid2")
@@ -14,7 +19,11 @@ data class Note (
     var id: String = "",
     var title: String,
     var message: String,
-    var location: String = ""
+    var location: String = "",
+    @CreationTimestamp
+    var created: Date = Date(),
+    @UpdateTimestamp
+    var modified: Date = Date()
 ) {
 
     /**
