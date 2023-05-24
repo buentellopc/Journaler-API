@@ -32,7 +32,7 @@ data class Note(
      * It does the object creation by calling the no-arg constructor.
      * Then it uses the setter methods to set the properties.
      *
-     * If there is no default constructor, the following excpetion happens:
+     * If there is no default constructor, the following exception happens:
      * org.hibernate.InstantiationException: No default constructor for entity...
      */
     constructor() : this(
